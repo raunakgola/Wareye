@@ -1,0 +1,5 @@
+path: /content/sample_900
+train: images
+val: images
+nc: 6
+names: ['plate', 'spoon', 'fork', 'knife', 'cup', 'glass']
