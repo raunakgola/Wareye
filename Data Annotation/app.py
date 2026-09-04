@@ -101,6 +101,10 @@ if not image_paths:
     st.sidebar.warning("No images found in the specified directory.")
     st.stop()
 
+# maps image id (filename without extension) -> its position in image_paths,
+# used by the jump-to-image box so you don't have to click Next hundreds of times
+id_to_idx = {os.path.splitext(os.path.basename(p))[0]: i for i, p in enumerate(image_paths)}
+
 if "img_idx" not in st.session_state:
     st.session_state["img_idx"] = 0
 if "auto_play" not in st.session_state:
@@ -135,7 +139,15 @@ except Exception:
 labels_exist = os.path.exists(current_lbl_path)
 annotations = load_yolo_labels(current_lbl_path, img_w, img_h) if labels_exist else None
 
+# multi-object images are the ones most likely to have a mislabeled class
+# (cup/glass mixups etc), so auto-advance shouldn't blow past them -- stop
+# here and let the image render so it can be reviewed by hand
+if st.session_state["auto_play"] and annotations is not None and len(annotations) > 1:
+    st.session_state["auto_play"] = False
+    st.info(f"Auto-advance paused: {img_name} has {len(annotations)} labels, review this one.")
+
 selected_annotation_ids = []
+updated_classes = {}
 
 with col_right:
     st.subheader(f"Coordinates & Labels ({img_name})")
@@ -147,21 +159,53 @@ with col_right:
         elif len(annotations) == 0:
             st.warning(f"Label file `{img_id}.txt` is empty.")
         else:
-            st.write("Select boxes to keep:")
+            st.write("Select boxes to keep, fix class if wrong:")
             for ann in annotations:
-                box_str = f"[{ann['class_name']}] cx:{ann['cx']:.2f}, cy:{ann['cy']:.2f}, w:{ann['w']:.2f}, h:{ann['h']:.2f}"
-                is_checked = st.checkbox(box_str, value=True, key=f"cb_{img_id}_{ann['id']}")
+                col_chk, col_cls = st.columns([1.6, 1])
+                with col_chk:
+                    box_str = f"cx:{ann['cx']:.2f}, cy:{ann['cy']:.2f}, w:{ann['w']:.2f}, h:{ann['h']:.2f}"
+                    is_checked = st.checkbox(box_str, value=True, key=f"cb_{img_id}_{ann['id']}")
+                with col_cls:
+                    new_class_name = st.selectbox(
+                        "class", CLASSES, index=ann["class_id"],
+                        key=f"cls_{img_id}_{ann['id']}", label_visibility="collapsed"
+                    )
+                updated_classes[ann["id"]] = CLASSES.index(new_class_name)
                 if is_checked:
                     selected_annotation_ids.append(ann["id"])
 
     st.write("---")
 
-    if st.button("Delete Unselected Labels", type="secondary", use_container_width=True):
+    if st.button("Save Changes", type="secondary", use_container_width=True):
         if labels_exist and annotations:
-            kept = [a for a in annotations if a["id"] in selected_annotation_ids]
+            kept = []
+            for a in annotations:
+                if a["id"] in selected_annotation_ids:
+                    a["class_id"] = updated_classes.get(a["id"], a["class_id"])
+                    kept.append(a)
             save_yolo_labels(current_lbl_path, kept)
             st.success("Updated label file successfully!")
             st.rerun()
+
+    st.write("---")
+    st.write("Jump to image:")
+
+    jump_col1, jump_col2 = st.columns([2, 1])
+    with jump_col1:
+        jump_input = st.text_input(
+            "jump", value="", key="jump_input", label_visibility="collapsed",
+            placeholder="e.g. 6446"
+        )
+    with jump_col2:
+        if st.button("Go", use_container_width=True):
+            typed = jump_input.strip()
+            candidates = [typed, typed.zfill(4)]
+            target_idx = next((id_to_idx[c] for c in candidates if c in id_to_idx), None)
+            if target_idx is not None:
+                st.session_state["img_idx"] = target_idx
+                st.rerun()
+            else:
+                st.error(f"No image found matching '{typed}'.")
 
     st.write("---")
     st.write("Navigate:")
@@ -187,7 +231,7 @@ with col_right:
         st.rerun()
 
     st.write("---")
-    st.write("Auto-Advance (every 1.5s):")
+    st.write("Auto-Advance (pauses on multi-label images):")
 
     col_auto_start, col_auto_stop = st.columns(2)
     with col_auto_start:
@@ -200,7 +244,7 @@ with col_right:
             st.rerun()
 
     if st.session_state["auto_play"]:
-        st.caption("Auto-advancing every 1.5s, click Stop to pause.")
+        st.caption("Auto-advancing, click Stop to pause.")
 
 with col_center:
     if labels_exist and annotations and len(annotations) > 0:
@@ -209,8 +253,8 @@ with col_center:
     else:
         st.image(pil_img, caption=f"Image: {img_name} (No Bounding Boxes)", use_container_width=True)
 
-# TODO: this blocks the whole script while sleeping so Stop can lag ~1.5s, fine for now
+# TODO: this blocks the whole script for 0.5s, which is not ideal.
 if st.session_state["auto_play"]:
-    time.sleep(1.5)
+    time.sleep(0.5)
     advance_to_next_image()
     st.rerun()
