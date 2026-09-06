@@ -1,0 +1,5 @@
+path: /content/Dataset/kitchenware-object-detection-dataset-yolo-format/Dataset
+train: train/images
+val: val/images
+nc: 6
+names: ["plate", "spoon", "fork", "knife", "cup", "glass"]
