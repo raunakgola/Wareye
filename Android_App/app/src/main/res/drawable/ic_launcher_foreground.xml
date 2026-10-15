@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Wareye launcher foreground: cream eye, red pupil. 108dp canvas, art inside the 66dp safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#F4F0E6" android:pathData="M28,54C36,41 45,36.5 54,36.5S72,41 80,54C72,67 63,71.5 54,71.5S36,67 28,54Z"/>
+    <path android:fillColor="#C8382C" android:pathData="M54,45a9,9 0,1 0,0.01 0Z"/>
+</vector>

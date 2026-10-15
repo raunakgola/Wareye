@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="-8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/back_circle"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back"
+            android:tint="@color/ink" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/T.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:accessibilityHeading="true"
+            android:text="@string/picker_title" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            style="@style/T.BodySmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/picker_subtitle" />
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/field"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/ink_muted"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/ink"
+            android:textColorHint="@color/ink_muted"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <!-- SelectionBar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/counter"
+                style="@style/T.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:accessibilityLiveRegion="polite"
+                android:background="@drawable/pill_lavender"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColor="@color/on_lavender" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/selectAll"
+                style="@style/TextButton"
+                android:text="@string/select_all" />
+
+            <TextView
+                android:id="@+id/clear"
+                style="@style/TextButton"
+                android:text="@string/clear"
+                android:textColor="@color/text_button_ink" />
+        </LinearLayout>
+
+        <!-- RecentRow -->
+        <LinearLayout
+            android:id="@+id/recentRow"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/recent_row"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_history"
+                android:tint="@color/on_lavender" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/T.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recent"
+                    android:textColor="@color/on_lavender" />
+
+                <TextView
+                    android:id="@+id/recentNames"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:textColor="@color/on_lavender"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/useAgain"
+                style="@style/T.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/pill_cream_btn"
+                android:clickable="true"
+                android:drawableTint="@color/on_lavender"
+                android:drawablePadding="4dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:text="@string/use_again"
+                android:textColor="@color/on_lavender" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
+
+            <TextView
+                android:id="@+id/noResults"
+                style="@style/T.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/class_chip"
+                android:gravity="center"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            android:id="@+id/start"
+            style="@style/PrimaryButton"
+            android:background="@drawable/btn_start"
+            android:textColor="@color/primary_text" />
+
+        <TextView
+            android:id="@+id/startHint"
+            style="@style/T.BodySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:importantForAccessibility="no"
+            android:text="@string/pick_one_hint" />
+    </LinearLayout>
+</LinearLayout>

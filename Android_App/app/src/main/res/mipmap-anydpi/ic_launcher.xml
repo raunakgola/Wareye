@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 6-7 fallback (minSdk 23): same art on a rounded forest square, as a vector. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="48dp" android:height="48dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#2E3D1E" android:pathData="M22,4h64a18,18 0,0 1,18 18v64a18,18 0,0 1,-18 18h-64a18,18 0,0 1,-18 -18v-64a18,18 0,0 1,18 -18z"/>
+    <group android:pivotX="54" android:pivotY="54" android:scaleX="1.3" android:scaleY="1.3">
+        <path android:fillColor="#F4F0E6" android:pathData="M28,54C36,41 45,36.5 54,36.5S72,41 80,54C72,67 63,71.5 54,71.5S36,67 28,54Z"/>
+        <path android:fillColor="#C8382C" android:pathData="M54,45a9,9 0,1 0,0.01 0Z"/>
+    </group>
+</vector>

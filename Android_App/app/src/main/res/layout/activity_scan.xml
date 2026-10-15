@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:implementationMode="compatible"
+        app:scaleType="fillCenter" />
+
+    <ImageView
+        android:id="@+id/frozen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        android:visibility="gone" />
+
+    <com.raunak.wareye.OverlayView
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no" />
+
+    <!-- Top: back, HUD pill, HUD card, banner -->
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <ImageButton
+                android:id="@+id/back"
+                style="@style/HudButton"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/hudPill"
+                style="@style/T.Mono"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/pill_hud"
+                android:clickable="true"
+                android:contentDescription="@string/hud_toggle"
+                android:drawablePadding="8dp"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/hudCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/card_hud"
+            android:clickable="true"
+            android:contentDescription="@string/hud_card_cd"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/hudModel"
+                    style="@style/T.Mono"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/hudDetections"
+                    style="@style/T.Mono"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_forest_muted"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/hudBig"
+                style="@style/T.Mono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/hudStages"
+                style="@style/T.Mono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/hudPct"
+                style="@style/T.Mono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:accessibilityLiveRegion="polite"
+            android:background="@drawable/banner_warn"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/bannerText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/slow_cpu"
+                android:textColor="@color/on_warn"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/bannerAction"
+                style="@style/T.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/pill_forest_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="@string/switch_gpu"
+                android:textColor="@color/cream" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Nothing detected: non-blocking hint card -->
+    <LinearLayout
+        android:id="@+id/hint"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:accessibilityLiveRegion="polite"
+        android:background="@drawable/card_dark"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_search"
+            android:tint="@color/cream" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/nothing_title"
+            android:textColor="@color/cream"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hintBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:textColor="@color/on_forest_muted"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/hintAction"
+            style="@style/T.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/pill_lavender_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:text="@string/lower_to"
+            android:textColor="@color/on_lavender" />
+    </LinearLayout>
+
+    <!-- BottomPanel -->
+    <LinearLayout
+        android:id="@+id/panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/panel_forest"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <FrameLayout
+            android:id="@+id/handle"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:clickable="true"
+            android:contentDescription="@string/tune"
+            android:focusable="true">
+
+            <View
+                android:layout_width="32dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:background="@drawable/handle" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/countTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/cream"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/classesOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/on_forest_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/chipScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/chips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/sliders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:labelFor="@id/confSlider"
+                    android:text="@string/confidence"
+                    android:textColor="@color/cream"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/confValue"
+                    style="@style/T.Mono"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/confSlider"
+                style="@style/Slider"
+                android:layout_height="36dp"
+                android:progressDrawable="@drawable/slider_track_dark"
+                android:thumb="@drawable/slider_thumb_dark" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif"
+                    android:labelFor="@id/iouSlider"
+                    android:text="@string/iou"
+                    android:textColor="@color/cream"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/iouValue"
+                    style="@style/T.Mono"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/iouSlider"
+                style="@style/Slider"
+                android:layout_height="36dp"
+                android:progressDrawable="@drawable/slider_track_dark"
+                android:thumb="@drawable/slider_thumb_dark" />
+
+            <TextView
+                android:id="@+id/moreSettings"
+                style="@style/TextButton"
+                android:layout_gravity="end"
+                android:text="@string/more_settings"
+                android:textColor="@color/lavender" />
+        </LinearLayout>
+
+        <!-- Controls row -->
+        <LinearLayout
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/torch"
+                style="@style/RoundControl"
+                android:contentDescription="@string/torch"
+                android:src="@drawable/ic_bolt" />
+
+            <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/flip"
+                style="@style/RoundControl"
+                android:contentDescription="@string/flip"
+                android:src="@drawable/ic_flip" />
+
+            <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/pause"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/pause_button"
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/pause"
+                android:src="@drawable/ic_pause"
+                android:tint="@color/white" />
+
+            <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/zoom"
+                style="@style/T.Mono"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/round_control"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:textSize="12sp" />
+
+            <Space android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/tune"
+                style="@style/RoundControl"
+                android:contentDescription="@string/tune"
+                android:src="@drawable/ic_tune" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/status"
+        layout="@layout/view_status"
+        android:visibility="gone" />
+</FrameLayout>

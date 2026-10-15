@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- StatusScreen: loading, permission denied, model failed. Primary action is always the recovery path. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream"
+    android:clickable="true"
+    android:focusable="false"
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="24dp">
+
+    <ImageButton
+        android:id="@+id/statusBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/back_circle"
+        android:contentDescription="@string/back"
+        android:src="@drawable/ic_back"
+        android:tint="@color/ink" />
+
+    <FrameLayout
+        android:id="@+id/statusDisc"
+        android:layout_width="112dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/disc_lavender">
+
+        <ImageView
+            android:id="@+id/statusIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/statusTitle"
+        style="@style/T.Headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:accessibilityHeading="true"
+        android:accessibilityLiveRegion="polite" />
+
+    <TextView
+        android:id="@+id/statusBody"
+        style="@style/T.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <ProgressBar
+        android:id="@+id/statusProgress"
+        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="24dp"
+        android:max="4"
+        android:progressDrawable="@drawable/slider_track" />
+
+    <LinearLayout
+        android:id="@+id/statusSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical" />
+
+    <LinearLayout
+        android:id="@+id/statusDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/box_tile"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/statusDetailLabel"
+            style="@style/T.LabelSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/statusDetailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="4sp"
+            android:textColor="@color/ink"
+            android:textIsSelectable="true"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/statusPrimary"
+        style="@style/PrimaryButton" />
+
+    <TextView
+        android:id="@+id/statusSecondary"
+        style="@style/OutlineButton"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/statusTertiary"
+        style="@style/TextButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp" />
+</LinearLayout>

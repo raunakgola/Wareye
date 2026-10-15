@@ -66,7 +66,21 @@ Wareye/
 │   ├── export_and_quantization.md
 │   └── images/                            #   plots and diagrams used by the docs
 │
-└── Android_App/                           # Section 7 (added in the next stage)
+└── Android_App/                           # Section 7: the Kotlin app
+    ├── README.md                          #   app guide: use, build, how it works, rebrand
+    ├── CHANGES.md                         #   technical change log
+    ├── settings.gradle.kts, build.gradle.kts, gradle.properties
+    ├── gradlew, gradlew.bat, gradle/wrapper/
+    ├── docs/
+    │   ├── screenshots/                   #   8 app screenshots used in the READMEs
+    │   └── demo/wareye_demo.mp4           #   screen recording of the app
+    └── app/
+        ├── build.gradle.kts, proguard-rules.pro
+        └── src/main/
+            ├── AndroidManifest.xml
+            ├── assets/model.tflite        #   yolo26n w8a32, same file as in exports/
+            ├── java/com/raunak/wareye/    #   14 Kotlin files
+            └── res/                       #   layouts, colors, vector icons, strings
 ```
 
 The app copies `Final_Training_YOLO26/yolo26s/exports/yolo26n_w8a32.tflite` into its `assets/` folder as `model.tflite`, so the app builds on its own.
@@ -420,8 +434,48 @@ Order of the notebooks: `Optuna_Screening/optuna.ipynb`, then `Final_Training_YO
 - Each model was trained once, with one seed. A gap of 0.002 mAP between yolo26n and yolo26s is too small to call a real difference.
 - The Optuna search is a screening, not an exhaustive search: 25 trials over 10 models, so some models got one trial and two were never sampled. With 15 epochs and the default `close_mosaic=10`, the `mosaic` value only applied to the first 5 epochs.
 - `close_mosaic=12` and the cosine learning-rate decay were planned for 150 epochs, but early stopping ended both runs at epoch 79 and 80. Mosaic was therefore never switched off and the learning rate was still about 0.45 x `lr0` at the end (see [Training Concepts](docs/training_concepts.md#cosine-learning-rate-schedule)).
-- Latencies were measured on a server CPU and GPU. Real speed on the phone has to be measured on the device.
+- The latencies in Section 4 were measured on a server (RTX 4090 for `.pt`, 16 vCPU for `.tflite`), not on a phone. The phone readings in Section 7 come from the app's HUD in screenshots, on one phone and one scene, so they show the order of magnitude and are not a benchmark.
+- Accuracy was only measured on the validation set. On the phone the model was checked by eye, and the screenshots show it is not perfect at the default settings: some objects are missed and a fork was once boxed as `spoon 35%`. No phone-side accuracy evaluation was done.
 
 ## 7. Android App
 
-The Android app (Kotlin, LiteRT) is added in the next stage of the project.
+The app is in [`Android_App/`](Android_App) (Kotlin, XML views, LiteRT). It runs the model from Section 4 on the phone's camera and draws a box around every plate, spoon, fork, knife, cup and glass in real time. Frames never leave the phone: the app has no internet permission.
+
+<p align="center">
+  <img src="Android_App/docs/screenshots/01_live_scan_counts.jpg" alt="Live scan with boxes, per-class counts and the metrics card" width="23%">
+  <img src="Android_App/docs/screenshots/03_live_scan_thresholds_hud.jpg" alt="Confidence and IoU threshold sliders over the live camera" width="23%">
+  <img src="Android_App/docs/screenshots/07_metrics_sheet.jpg" alt="Metrics sheet with FPS, stage times, P50/P95 and the latency graph" width="23%">
+  <img src="Android_App/docs/screenshots/08_cpu_slow_warning.jpg" alt="Low-FPS warning when the model runs on the CPU" width="23%">
+</p>
+<p align="center"><sub>Live scan · threshold sliders · metrics sheet · slow-on-CPU warning. More screenshots are in <a href="Android_App/README.md#screenshots">the app README</a>.</sub></p>
+
+<p align="center"><a href="Android_App/docs/demo/wareye_demo.mp4">Watch the demo video</a></p>
+
+### What it does
+
+- **Same model as Section 4.** `yolo26n_w8a32.tflite` (2,853,647 bytes) is copied into the app as `app/src/main/assets/model.tflite`.
+- **GPU first, CPU as fallback.** LiteRT tries the phone's GPU and switches to the CPU if the GPU cannot run the model. The chip on the Home screen shows which one is in use.
+- **App-side post-processing.** The model was exported without NMS, so the app decodes the raw `[1, 10, 8400]` output, applies the confidence threshold and the class filter, then runs NMS itself.
+- **Class filter before NMS.** You choose which classes to look for; the others cannot suppress or replace the selected ones. The class list (id, label, category, color) is one registry file, so adding classes later does not change the app logic.
+- **Live HUD.** FPS, ms per frame, pre / inference / post time, P50 and P95 over the last 100 frames, and the app's RAM.
+- **Controls.** Pause and resume, zoom (1x, 2x, 5x or pinch), torch, front and back camera, confidence and IoU sliders.
+
+**Install.** Download the APK from the **Releases** page of this repository and open it on the phone (Android 6.0 or newer, 64-bit ARM). Android asks you to allow installs from your browser or file manager, and Play Protect may show a warning because the app is not from the Play Store. Build instructions, the full usage guide, how the code works and how to rebrand it are in [`Android_App/README.md`](Android_App/README.md).
+
+### Measured on the phone
+
+<div align="center">
+
+| | GPU (7 readings) | CPU (1 reading) |
+|---|---|---|
+| FPS | 10.4 to 13.7 | 4.4 |
+| Total per frame | 71 to 128 ms | 508 ms |
+| Inference | 53 to 77 ms | 494 ms |
+| Pre-processing | 17 to 48 ms | 13 ms |
+| Post-processing | 0.4 to 3.7 ms | 0.5 ms |
+
+</div>
+
+<sub>Read from the HUD in the screenshots, on one phone, with all 6 classes on and objects on a metal plate. One extra GPU reading (7.2 FPS, 286 ms per frame, 252 ms inference) is left out of the ranges. These are single readings, not a controlled benchmark.</sub>
+
+Two things stand out. On this phone the GPU ran inference roughly 6 to 9 times faster than the single CPU reading, which is why the app tries the GPU first. And pre-processing (copy, rotate, letterbox and convert the camera frame, done on the CPU) took about a quarter to almost half of each GPU frame, so it is the next thing to optimize.

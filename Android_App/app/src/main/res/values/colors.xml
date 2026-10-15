@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Wareye tokens (light theme only) -->
+    <color name="cream">#F4F0E6</color>
+    <color name="ink">#1A1A17</color>
+    <color name="ink_muted">#5B574B</color>
+    <color name="tile">#ECE7DB</color>
+    <color name="tile_pressed">#DED8C9</color>
+    <color name="outline">#8A8472</color>
+    <color name="divider">#CBC4B2</color>
+    <color name="red">#C8382C</color>
+    <color name="red_pressed">#B13126</color>
+    <color name="red_text">#B3302A</color>
+    <color name="forest">#2E3D1E</color>
+    <color name="sel_tint">#DDE5CF</color>
+    <color name="lavender">#E5D9EC</color>
+    <color name="on_lavender">#2B2140</color>
+    <color name="error_container">#F6D9D4</color>
+    <color name="on_error">#6E160E</color>
+    <color name="warn_container">#FBE9C2</color>
+    <color name="on_warn">#3F2900</color>
+    <color name="warn_on_dark">#FFC24D</color>
+    <color name="disabled_fill">#DAD5C6</color>
+    <color name="on_disabled">#4A4638</color>
+    <color name="hud_scrim">#A8141411</color>
+    <color name="on_forest_muted">#C7F4F0E6</color>
+    <color name="round_control">#24F4F0E6</color>
+    <color name="live_dot">#3E7B2B</color>
+    <color name="live_dot_dark">#8FD36B</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="ic_launcher_background">#2E3D1E</color>
+</resources>

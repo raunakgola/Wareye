@@ -1,0 +1,143 @@
+<resources>
+    <style name="Theme.Wareye" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/red</item>
+        <item name="android:colorAccent">@color/forest</item>
+        <item name="android:colorControlActivated">@color/forest</item>
+        <item name="android:windowBackground">@color/cream</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Theme.Wareye.Scan">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Wareye.Sheet" parent="android:Theme.Material.Light.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.52</item>
+        <item name="android:colorControlActivated">@color/forest</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Type scale. System fonts: sans-serif-black ~ 800, sans-serif bold = 700, sans-serif-medium = 500. -->
+    <style name="T" />
+    <style name="T.Display">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="T.Headline">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="T.TitleLarge">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="T.TitleMedium">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="T.BodyLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="T.Body">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+        <item name="android:textColor">@color/ink_muted</item>
+    </style>
+    <style name="T.BodySmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/ink_muted</item>
+    </style>
+    <style name="T.Label">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="T.LabelSmall">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/ink_muted</item>
+    </style>
+    <style name="T.Mono">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/cream</item>
+    </style>
+
+    <!-- Components -->
+    <style name="PrimaryButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/btn_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+    <style name="OutlineButton" parent="PrimaryButton">
+        <item name="android:background">@drawable/btn_outline</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:background">@drawable/ripple_rect</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_button_red</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+    <!-- Compact camera control: 44 dp visual and target, 20 dp icon. -->
+    <style name="RoundControl">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/round_control</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:tint">@color/round_icon</item>
+    </style>
+    <style name="HudButton" parent="RoundControl">
+        <item name="android:background">@drawable/hud_round</item>
+        <item name="android:tint">@color/cream</item>
+    </style>
+    <style name="Slider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:max">100</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:progressDrawable">@drawable/slider_track</item>
+        <item name="android:thumb">@drawable/slider_thumb</item>
+        <item name="android:splitTrack">false</item>
+    </style>
+</resources>
