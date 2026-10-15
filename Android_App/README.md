@@ -26,7 +26,7 @@ Live kitchenware detection on an Android phone. Point the camera at a table and 
 </table>
 </div>
 
-<p align="center"><a href="docs/demo/wareye_demo.mp4">Watch the demo video</a></p>
+<p align="center"><a href="https://github.com/user-attachments/assets/8ab2b2bc-1ccf-416d-ae1b-61e0350f5c3c">Watch the demo video</a></p>
 
 **Contents**
 
