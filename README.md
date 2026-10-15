@@ -449,7 +449,7 @@ The app is in [`Android_App/`](Android_App) (Kotlin, XML views, LiteRT). It runs
 </p>
 <p align="center"><sub>Live scan · threshold sliders · metrics sheet · slow-on-CPU warning. More screenshots are in <a href="Android_App/README.md#screenshots">the app README</a>.</sub></p>
 
-<p align="center"><a href="Android_App/docs/demo/wareye_demo.mp4">Watch the demo video</a></p>
+<p align="center"><a href="https://github.com/user-attachments/assets/8ab2b2bc-1ccf-416d-ae1b-61e0350f5c3c">Watch the demo video</a></p>
 
 ### What it does
 
