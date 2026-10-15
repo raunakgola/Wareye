@@ -28,6 +28,8 @@ Live kitchenware detection on an Android phone. Point the camera at a table and 
 
 <p align="center"><a href="https://github.com/user-attachments/assets/8ab2b2bc-1ccf-416d-ae1b-61e0350f5c3c">Watch the demo video</a></p>
 
+<p align="center">📥 <b>Download:</b> <a href="https://github.com/raunakgola/Wareye/releases/latest">Wareye-v1.0.0.apk</a> (Android 6.0+, 64-bit ARM, about 7 MB)</p>
+
 **Contents**
 
 1. [Features](#1-features)

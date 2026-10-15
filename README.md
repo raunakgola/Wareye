@@ -460,7 +460,7 @@ The app is in [`Android_App/`](Android_App) (Kotlin, XML views, LiteRT). It runs
 - **Live HUD.** FPS, ms per frame, pre / inference / post time, P50 and P95 over the last 100 frames, and the app's RAM.
 - **Controls.** Pause and resume, zoom (1x, 2x, 5x or pinch), torch, front and back camera, confidence and IoU sliders.
 
-**Install.** Download the APK from the **Releases** page of this repository and open it on the phone (Android 6.0 or newer, 64-bit ARM). Android asks you to allow installs from your browser or file manager, and Play Protect may show a warning because the app is not from the Play Store. Build instructions, the full usage guide, how the code works and how to rebrand it are in [`Android_App/README.md`](Android_App/README.md).
+**Install.** Download the APK from the [**Releases page**](https://github.com/raunakgola/Wareye/releases/latest) and open it on the phone (Android 6.0 or newer, 64-bit ARM). Android asks you to allow installs from your browser or file manager, and Play Protect may show a warning because the app is not from the Play Store. Build instructions, the full usage guide, how the code works and how to rebrand it are in [`Android_App/README.md`](Android_App/README.md).
 
 ### Measured on the phone
 
